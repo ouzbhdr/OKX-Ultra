@@ -10,7 +10,7 @@ OKX Ultra, OKX borsası üzerinde hem spot hem de vadeli işlemler için tasarla
   * **Jawa (`jawa.py`):** Günlük rutin işler ve kontroller.
   * **Scanner (`c3po.py`):** Belirli aralıklarla çalışan hiperparametre optimizasyon modülü.
 * **Veritabanı Entegrasyonu (`holocron.py`):** Supabase üzerinde aktif pozisyonlar, strateji kılavuz parametreleri, işlem geçmişi ve kara liste yönetimi.
-* **Telegram Arayüzü (`hologram.py`):** Bot durumunu sorgulama, parametre değiştirme ve anlık işlem bildirimleri (telemetri).
+* **Telegram Arayüzü (`hologram.py`):** Bot durumunu sorgulama, parametre değiştirme ve anlık işlem bildirimleri (telemetri). Telegram komutları ile bot yönetimi.
 * **Rönesans Modülü (`Ronesans/`):** Cointegration (eşbütünleşme) tabanlı parite ticareti (DASH-ZEC, OL-DOGE vb.) motoru.
 * **Deneyler ve Backtest (`Deneyler/`):** Çeşitli grid, zigzag ve funding tabanlı simülasyon araçları ile sapma analizörleri.
 * **MetaTrader 5 Desteği:** `Sadece bir deneme
