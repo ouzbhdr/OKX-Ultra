@@ -1,0 +1,55 @@
+//@version=6
+indicator("Daily Grid Range Projection & Boxes", overlay=true)
+
+// Fetch yesterday's daily values safely without lookahead bias
+float d_open = request.security(syminfo.tickerid, "D", open[1], barmerge.gaps_off, barmerge.lookahead_off)
+float d_high = request.security(syminfo.tickerid, "D", high[1], barmerge.gaps_off, barmerge.lookahead_off)
+float d_low = request.security(syminfo.tickerid, "D", low[1], barmerge.gaps_off, barmerge.lookahead_off)
+float d_close = request.security(syminfo.tickerid, "D", close[1], barmerge.gaps_off, barmerge.lookahead_off)
+
+float d_range = d_high - d_low
+bool d_green = d_close >= d_open
+
+// Calculate the 5 grid levels defining the 4 boxes
+float lvl0 = na
+float lvl1 = na
+float lvl2 = na
+float float_lvl3 = na
+float lvl4 = na
+
+if not na(d_open)
+    if d_green
+        // Yesterday Green -> project range DOWNWARDS (Buy zone)
+        lvl0 := d_low - d_range
+        lvl1 := d_low - 0.75 * d_range
+        lvl2 := d_low - 0.50 * d_range
+        float_lvl3 := d_low - 0.25 * d_range
+        lvl4 := d_low
+    else
+        // Yesterday Red -> project range UPWARDS (Sell zone)
+        lvl0 := d_high
+        lvl1 := d_high + 0.25 * d_range
+        lvl2 := d_high + 0.50 * d_range
+        float_lvl3 := d_high + 0.75 * d_range
+        lvl4 := d_high + d_range
+
+// Plots the grid levels
+p0 = plot(lvl0, "Lvl 0 (Grid Bottom)", color=color.gray, linewidth=2)
+p1 = plot(lvl1, "Lvl 1", color=color.blue, style=plot.style_line, linewidth=1)
+p2 = plot(lvl2, "Lvl 2 (Grid Middle)", color=color.orange, style=plot.style_line, linewidth=1)
+p3 = plot(float_lvl3, "Lvl 3", color=color.blue, style=plot.style_line, linewidth=1)
+p4 = plot(lvl4, "Lvl 4 (Grid Top)", color=color.gray, style=plot.style_line, linewidth=2)
+
+// Plots yesterday's actual values as dashed/dotted reference lines
+plot(d_high, "Yesterday High (Ref)", color=color.red, linestyle=plot.linestyle_dashed, linewidth=1)
+plot(d_low, "Yesterday Low (Ref)", color=color.green, linestyle=plot.linestyle_dashed, linewidth=1)
+plot(d_open, "Yesterday Open (Ref)", color=color.blue, linestyle=plot.linestyle_dotted, linewidth=1)
+plot(d_close, "Yesterday Close (Ref)", color=color.orange, linestyle=plot.linestyle_dotted, linewidth=1)
+
+// Fills to visualize the boxes dynamically
+color_box = d_green ? color.new(color.green, 92) : color.new(color.red, 92)
+
+fill(p0, p1, color=color_box, title="Box 1")
+fill(p1, p2, color=color_box, title="Box 2")
+fill(p2, p3, color=color_box, title="Box 3")
+fill(p3, p4, color=color_box, title="Box 4")

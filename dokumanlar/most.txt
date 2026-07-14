@@ -1,0 +1,58 @@
+//@version=5
+indicator("MOST by Oğuz", overlay=true)
+
+// Parametreler
+per1     = input.int(13, "Periyot")
+yuzde    = input.float(1.3, "Yüzde")
+ma_type  = input.string("EMA", "MA Tipi", options=["SMA", "EMA", "WMA", "RMA"])
+src_type = input.string("Close", "Kaynak Veri", options=["Open", "High", "Low", "Close"])
+
+// Kaynak veri seçimi
+src = src_type == "Open"  ? open  :
+      src_type == "High"  ? high  :
+      src_type == "Low"   ? low   :
+      close
+
+// Ortalama hesaplama fonksiyonu
+f_ma(_src, length) =>
+    if ma_type == "SMA"
+        ta.sma(_src, length)
+    else if ma_type == "EMA"
+        ta.ema(_src, length)
+    else if ma_type == "WMA"
+        ta.wma(_src, length)
+    else
+        ta.rma(_src, length)
+
+
+
+// Hesaplamalar
+ort1 = f_ma(src, per1)
+ortp = ort1 - (ort1 * yuzde / 100)
+ortm = ort1 + (ort1 * yuzde / 100)
+
+// line1 ve line2
+var float prev_line1 = na
+var float prev_line2 = na
+
+line1 = na(prev_line1) ? ortp : (ort1 < prev_line1 ? ortp : (ortp > prev_line1 ? ortp : prev_line1))
+line2 = na(prev_line2) ? ortm : (ort1 > prev_line2 ? ortm : (ortm < prev_line2 ? ortm : prev_line2))
+
+prev_line1 := line1
+prev_line2 := line2
+
+// Cross işlemleri
+k1 = ta.crossover(ort1, line2[1])
+k2 = ta.crossover(line1[1], ort1)
+
+// Barssince karşılığı
+bs_k1 = ta.barssince(k1)
+bs_k2 = ta.barssince(k2)
+
+// s1 ve s2
+s1 = bs_k1 < bs_k2
+s2 = s1 ? line1 : line2
+
+// Çizimler
+plot(ort1, color=color.rgb(7, 161, 53), title="Hesaplamada Kullanılan Ortalama")
+plot(s2, color=color.rgb(80, 58, 19), title="MOST ÇİZGİSİ")

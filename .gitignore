@@ -1,0 +1,30 @@
+# Sensitive Credentials & Keys
+.env
+anahtarlar/
+
+# Data and Databases
+veriler/
+*.csv
+
+# Python Cache & Environment
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+env/
+venv/
+.venv/
+
+# Running State & Process Locks
+*.flag
+*.lock
+last_scan.txt
+ronesans_active_pairs.json
+last_run.txt
+
+# Editor & System Files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
