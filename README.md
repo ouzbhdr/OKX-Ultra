@@ -13,7 +13,7 @@ OKX Ultra, OKX borsası üzerinde hem spot hem de vadeli işlemler için tasarla
 * **Telegram Arayüzü (`hologram.py`):** Bot durumunu sorgulama, parametre değiştirme ve anlık işlem bildirimleri (telemetri).
 * **Rönesans Modülü (`Ronesans/`):** Cointegration (eşbütünleşme) tabanlı parite ticareti (DASH-ZEC, OL-DOGE vb.) motoru.
 * **Deneyler ve Backtest (`Deneyler/`):** Çeşitli grid, zigzag ve funding tabanlı simülasyon araçları ile sapma analizörleri.
-* **MetaTrader 5 Desteği:** `kodlar/` altında MT5 için EA (`OKX_Ultra_EA.mq5`) entegrasyonu.
+* **MetaTrader 5 Desteği:** `Sadece bir deneme
 
 ---
 
